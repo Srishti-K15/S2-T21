@@ -29,16 +29,17 @@ fire. We have developed a solution using Dijkstra’s algorithm to determine the
 safest path from the person’s current location (source node) to the nearest exit (destination
 node).
 
-<summary>Features </summary>: This project stands out from the rest as it seeks to take Dijkstra’s Algorithm off
-the pages of theory and put it into practice by physically constructing it using Verilog and
-certain modern circuit components hence putting forward a new device or rather the hardware
-approach to the pathfinding. Unlike their counterparts where software in other words is the
-main tool to implement the designs behind looking for the shortest paths, In this design, an
-attempt has been made to utilize parallelism to achieve higher speeds and efficiency in finding
-out the shortest of all the paths present. Moreover, the use of Logisim where circuits are
-drawn and simulated has also made it possible to appreciate the working of the algorithm
-in the hardware by making it possible to see how various resources are managed and the
-complexity in terms of circuits .
+<summary>Features </summary>
+• This project aims to implement Dijkstra’s Algorithm practically by physically constructing
+it using Verilog and modern circuit components [Galles, ].<br>
+• It introduces a hardware approach to pathfinding, moving beyond theoretical concepts
+[YouTube, ].<br>
+• Unlike software-based implementations, this design utilizes parallelism to achieve higher
+speed and efficiency in finding the shortest paths [GeeksforGeeks, ].<br>
+• Logisim is used to draw and simulate circuits, making it possible to understand how the
+algorithm works in hardware [Galles, ].<br>
+• The project helps appreciate the management of resources and the complexity of the
+circuits involved [GeeksforGeeks, ].
    
 ## References
 > [https://www.cs.usfca.edu/galles/visualization/Dijkstra.html]
