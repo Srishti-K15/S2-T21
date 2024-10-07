@@ -40,6 +40,9 @@ speed and efficiency in finding the shortest paths [GeeksforGeeks, ].<br>
 algorithm works in hardware [Galles, ].<br>
 • The project helps appreciate the management of resources and the complexity of the
 circuits involved [GeeksforGeeks, ].
+
+# Block Diagram :
+   ![Diagram of the system](Snapshots/blockdiagram.drawio.png)
    
 ## References
 > [https://www.cs.usfca.edu/galles/visualization/Dijkstra.html]
