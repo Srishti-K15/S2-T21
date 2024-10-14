@@ -12,7 +12,6 @@ module dijkstra_subset(
     reg [3:0] parent[8:0];       // Parent array for path reconstruction
     reg [8:0] visited;           // Visited array
     reg [8:0] temp_path;
-    integer i, j;
     reg [3:0] current_node;
     reg [7:0] min_dist;
     reg [3:0] next_node;
