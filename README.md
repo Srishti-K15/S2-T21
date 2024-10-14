@@ -101,6 +101,7 @@ circuits involved [GeeksforGeeks, ].
       reg [3:0] current_node;
       reg [7:0] min_dist;
       reg [3:0] next_node;
+      reg [8:0] temp_path;
       // 9-bit representation of connections for a 3x3 grid
       // 9 nodes in the grid
       // Initialize the adjacency matrix in your module
@@ -172,15 +173,20 @@ circuits involved [GeeksforGeeks, ].
     if (dist[destination] != 8'hFF) begin
           shortest_distance = dist[destination];
           // Reconstruct path from destination to source
-          // check the logic over here too the conditions of the for loop....
           path_out = 9'b000000000;
+          temp_path = 9'b000000000;
           current_node = destination;
           for (j = 0; current_node != source && j < 9 && current_node != 4'hF; j = j + 1) begin
-            path_out = path_out | (1 << current_node);  // Set the bit corresponding to current_node
-            current_node = parent[current_node];        // Move to the parent node
-          end
-            path_out = path_out | (1 << source); // Mark the source in the path
-          end else begin
+          temp_path = temp_path | (1 << current_node);  // Set the bit corresponding to current_node
+          current_node = parent[current_node];        // Move to the parent node
+    end
+    temp_path = temp_path | (1 << source);
+    for (j = 0; j < 9; j = j + 1) begin
+      if (temp_path[j]) begin
+      path_out = path_out | (1 << (8 - j));
+    end
+          path_out = path_out | (1 << source); // Mark the source in the path
+    end else begin
             // No valid path found
             path_out = 9'b000000000;
           end
