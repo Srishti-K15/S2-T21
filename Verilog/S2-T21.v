@@ -6,12 +6,12 @@ module dijkstra_subset(
     output reg [2:0] shortest_distance, // Shortest distance from source to destination
     output reg [8:0] path_out           // Path output (9 bits, 1 for each cell)
 );
-
+    
     reg [8:0] adj_matrix[8:0];   // Adjacency matrix for 3x3 grid
     reg [7:0] dist[8:0];         // Distance array
     reg [3:0] parent[8:0];       // Parent array for path reconstruction
     reg [8:0] visited;           // Visited array
-
+    reg [8:0] temp_path;
     integer i, j;
     reg [3:0] current_node;
     reg [7:0] min_dist;
@@ -64,7 +64,6 @@ end
                         //$display(adj_matrix[current_node][j]);
                         // If unvisited and an edge exists
                         if ((dist[current_node] + 8'h01) < dist[j]) begin
-                            $display(i,j);
                             dist[j] = dist[current_node] + 8'h01; // Update distance (weight = 1)
                             parent[j] = current_node;             // Set parent
                         end
@@ -97,12 +96,18 @@ if (dist[destination] != 8'hFF) begin
     // Reconstruct path from destination to source
     // check the logic over here too the conditions of the for loop....
     path_out = 9'b000000000;
+    temp_path = 9'b000000000;
     current_node = destination;
     for (j = 0; current_node != source && j < 9 && current_node != 4'hF; j = j + 1) begin
-        path_out = path_out | (1 << current_node);  // Set the bit corresponding to current_node
+        temp_path = temp_path | (1 << current_node);  // Set the bit corresponding to current_node
         current_node = parent[current_node];        // Move to the parent node
     end
-    path_out = path_out | (1 << source); // Mark the source in the path
+    temp_path = temp_path | (1 << source);
+    for (j = 0; j < 9; j = j + 1) begin
+    if (temp_path[j]) begin
+        path_out = path_out | (1 << (8 - j));
+    end
+end
 end else begin
     // No valid path found
     path_out = 9'b000000000;
