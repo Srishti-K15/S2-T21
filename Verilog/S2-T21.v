@@ -10,8 +10,9 @@ module dijkstra_subset(
     reg [8:0] adj_matrix[8:0];   // Adjacency matrix for 3x3 grid
     reg [7:0] dist[8:0];         // Distance array
     reg [3:0] parent[8:0];       // Parent array for path reconstruction
-    reg [8:0] visited;           // Visited array
+    reg [8:0] visited;// Visited array
     reg [8:0] temp_path;
+    integer i,j;
     reg [3:0] current_node;
     reg [7:0] min_dist;
     reg [3:0] next_node;
@@ -103,10 +104,10 @@ if (dist[destination] != 8'hFF) begin
     end
     temp_path = temp_path | (1 << source);
     for (j = 0; j < 9; j = j + 1) begin
-    if (temp_path[j]) begin
-        path_out = path_out | (1 << (8 - j));
+        if (temp_path[j]) begin
+            path_out = path_out | (1 << (8 - j));
+        end
     end
-end
 end else begin
     // No valid path found
     path_out = 9'b000000000;
