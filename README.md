@@ -69,6 +69,8 @@ circuits involved [GeeksforGeeks, ].
 ## Working
 <details>
   <summary>Detail</summary>
+  
+  ### State Diagram
  
   ![State Diagram](https://github.com/user-attachments/assets/923fa0f5-be05-4719-8375-460277904abc)
 
