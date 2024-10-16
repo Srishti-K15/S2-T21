@@ -75,7 +75,7 @@ circuits involved [GeeksforGeeks, ].
   ### EQUATIONS
 
   
-1. Initialization Equations<br>
+### 1. Initialization Equations
 Before the algorithm begins, several variables and arrays are initialised.<br>
 Verilog Representation:<br>
 for (i = 0; i < 9; i = i + 1) begin<br>
@@ -181,16 +181,17 @@ end<br>
 ## Logisim Circuit Diagram
 <details>
   <summary>Detail</summary>
-   Adjacency Matrix module
+  
+ ### Adjacency Matrix module
   
   ![adj_matrix](https://github.com/user-attachments/assets/36835e81-3b3c-4232-b03c-d2e06f4b9c5b)
- Queue Module
+ ### Queue Module
 ![Queue](https://github.com/user-attachments/assets/f47ca5f2-8795-4db9-b7aa-74e19f484e2f)
-Distances module
+### Distances module
 ![distances](https://github.com/user-attachments/assets/dca2e34a-19c1-4855-bcb2-30ce20dee755)
-Visited nodes module
+### Visited nodes module
 ![visitednodes](https://github.com/user-attachments/assets/007fb617-5df5-421c-be52-fbee512fdb4f)<br>
-Parent module
+### Parent module
 ![parent](https://github.com/user-attachments/assets/e23f7f39-bb01-4753-8caa-1d025148cf1c)
 
 </details>
