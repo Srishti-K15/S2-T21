@@ -317,6 +317,11 @@ end<br>
         end
       end
     endmodule
+
+### Output
+
+![Screenshot 2024-10-16 164850](https://github.com/user-attachments/assets/f710cb19-7142-4b9f-b74f-ebd538f95cbc)
+
 </details>
 
 ## References
