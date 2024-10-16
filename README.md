@@ -184,6 +184,11 @@ end<br>
 <details>
   <summary>Detail</summary>
   
+  ### Main Module
+
+  ![main](https://github.com/user-attachments/assets/9d25aa4c-fdc7-49bc-a336-30ee402d2bb8)
+
+  
  ### Adjacency Matrix module
   
   ![adj_matrix](https://github.com/user-attachments/assets/36835e81-3b3c-4232-b03c-d2e06f4b9c5b)
