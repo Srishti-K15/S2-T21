@@ -74,112 +74,20 @@ circuits involved [GeeksforGeeks, ].
  
   ![State Diagram](https://github.com/user-attachments/assets/923fa0f5-be05-4719-8375-460277904abc)
 
-  ### EQUATIONS
 
-  
-### 1. Initialization Equations
-Before the algorithm begins, several variables and arrays are initialised.<br>
-Verilog Representation:<br>
-for (i = 0; i < 9; i = i + 1) begin<br>
-dist[i] = (i == source) ? 8’h00 : 8’hFF;<br>
-end<br>
-### Parent Initialization
-Each node’s parent is initially set to an invalid value, indicating that no paths have been<br>
-established yet.<br>
-Verilog Representation:<br>
-for (i = 0; i < 9; i = i + 1) begin<br>
-parent[i] = 4’hF; // INVALID<br>
-end<br>
-### Visited Array Initialization
-All nodes are marked as unvisited at the start.<br>
-Verilog Representation:<br>
-visited = 9’b000000000;<br>
-### 2. Adjusting the Adjacency Matrix Based on subset cells<br>
-The adjacency matrix defines the connectivity between nodes in the grid. The subset cells input<br>
-determines which cells (nodes) are included or blocked. If a cell is blocked (i.e., subset cells[i]<br>
-= 0), all its connections are removed by setting the corresponding adjacency bits to 0.<br>
-Verilog Representation:<br>
-for (i = 0; i < 9; i = i + 1) begin<br>
-if (!subset cells[i]) begin<br>
-adj matrix[i] = 9’b000000000;<br>
-end<br>
-end<br>
-### 3. Main Loop:Dijkstra’s Algorithm Operations
-The core of Dijkstra’s algorithm involves iteratively selecting the unvisited node with the<br>
-smallest tentative distance, updating the distances of its neighbors, and marking it as visited.<br>
-This process continues until the destination is reached or no more nodes can be selected.<br>
-### A. Selecting the Current Node with Minimum Distance
-At each iteration, select the unvisited node with the smallest tentative distance.If no such node<br>
-exists (i.e., all remaining nodes are unreachable), the algorithm terminates.<br>
-Verilog Representation:<br>
-min dist = 8’hFF; // Initialize to infinity<br>
-next node = 4’hF; // INVALID<br>
-for (j = 0; j < 9; j = j + 1) begin<br>
-if (!visited[j] & (dist[j] ¡]< min dist)) begin<br>
-min dist = dist[j];<br>
-next node = j;<br>
-end<br>
-end<br>
-if (next node == 4’hF) begin<br>
-// No more nodes to process<br>
-break;<br>
-end else begin<br>
-current node = next node;<br>
-end<br>
-### B. Marking the Current Node as Visited
-Once a node uu is selected, mark it as visited to prevent reprocessing.<br>
-Verilog Representation:<br>
-visited[current node] = 1’b1;<br>
-### C. Updating Distances of Neighboring Nodes
-For each neighbour of the current node, update the tentative distance if a shorter path is<br>
-found.<br>
-Verilog Representation:<br>
-for (j = 0; j < 9; j = j + 1) begin<br>
-if (adj matrix[current node][j] & !visited[j]) begin<br>
-if (dist[current node] + 8’h01 < dist[j]) begin<br>
-dist[j] = dist[current node] + 8’h01;<br>
-parent[j] = current node;<br>
-end<br>
-end<br>
-end<br>
-### D. Iterative Loop Control
-Repeat the selection and updating steps until the destination is reached or no more nodes can<br>
-be processed.<br>
-Verilog Representation:<br>
-for (i = 0; i < 9; i = i + 1) begin<br>
-// Selection, marking, and updating steps as described above<br>
-// Break the loop if no next node is found<br>
-end<br>
-### 4. Path Reconstruction Equations
-After completing the main loop, if the destination node has been reached (i.e., dist[destination]<br>
-is not infinity), reconstruct the shortest path by tracing back from the destination to the source<br>
-using the parent array.<br>
-### A. Determining Shortest Distance
-shortest distance=dist[destination]<br>
-Verilog Representation:<br>
-shortest distance = dist[destination];<br>
-### B. Reconstructing the Path
-Initialize path out to zero and iteratively set the bits corresponding to each node in the path<br>
-from the destination back to the source.<br>
-Verilog Representation:<br>
-path out = 9’b000000000;<br>
-current node = destination;<br>
-for (j = 0; current node != source & j < 9 & current node != 4’hF; j = j + 1) begin<br>
-path out = path out — (1 !! current node);<br>
-current node = parent[current node];<br>
-end<br>
-path out = path out — (1 !! source);<br>
-### C. Handling No Path Found
-If the destination remains unreachable after the main loop, indicate that no valid path exists.<br>
-Verilog Representation:<br>
-if (dist[destination] != 8’hFF) begin<br>
-// Reconstruct path as shown above<br>
-end else begin<br>
-path out = 9’b000000000;<br>
-end<br>
+•	This project aims to find the shortest path between two points in a 3x3 grid, where some paths may be blocked or unreachable due to fire or obstacles. We represent the grid using an adjacency matrix that tracks the connections between nodes (cells). The algorithm must adjust dynamically for blocked cells and then compute the shortest path from a given source node to a destination node.</br>
+•	If a valid path exists, the output will be the path and its total distance. If no path is found, the algorithm will indicate that the destination is unreachable. This ensures that the algorithm provides a clear result based on the state of the grid.</br>
+•	To solve this, we use Dijkstra’s algorithm, a well-known method for finding the shortest path between nodes in a graph. The algorithm works by iteratively selecting the unvisited node with the smallest tentative distance from the source. Once the node is selected, its neighboring nodes are updated, and the node is marked as visited.</br>
+•	This process continues until the algorithm has either visited all reachable nodes or found the shortest path to the destination. The key idea is that once a node’s shortest path is determined, it no longer needs to be revisited, which ensures that the algorithm runs efficiently.</br>
+•	The grid’s nodes are represented by an adjacency matrix, which indicates which nodes are connected. However, some nodes might be blocked or unreachable due to obstacles, such as fire. Before running the algorithm, we adjust this matrix by removing connections to and from blocked nodes.</br>
+•	By doing so, the algorithm will no longer attempt to use these blocked paths. This step ensures that only valid paths are considered, improving the accuracy of the shortest path search.</br>
+•	The core of Dijkstra’s algorithm involves progressively finding the shortest path to each node. In each iteration, the unvisited node with the smallest known distance from the source is selected. This node becomes the current node, and it is marked as visited to avoid being processed again.</br>
+•	Next, the algorithm checks each of the current node’s neighboring nodes to see if a shorter path can be found through the current node. If a shorter path is discovered, the distance is updated, and the current node becomes the parent of the neighbor. This process repeats until either the destination node is reached or all reachable nodes are visited.</br>
+•	After the algorithm completes, we check whether the destination node was reached. If the distance to the destination is not infinity, it means a valid path was found. To reconstruct the path, we trace back through the parent nodes from the destination to the source, revealing the shortest route step-by-step.</br>
+•	If the distance to the destination remains at infinity, it means no valid path exists, and we return a result indicating that the destination is unreachable. This final step not only provides the shortest distance but also the exact path taken, making the output clear and informative.
 </details>
-
 <!-- Fourth Section -->
+
 ## Logisim Circuit Diagram
 <details>
   <summary>Detail</summary>
