@@ -69,17 +69,132 @@ circuits involved [GeeksforGeeks, ].
 ## Working
 <details>
   <summary>Detail</summary>
+ 
+  ![State Diagram](https://github.com/user-attachments/assets/923fa0f5-be05-4719-8375-460277904abc)
 
-  > Explain the working of your model with the help of a functional table (compulsory) followed by the flowchart.
+  ### EQUATIONS
+
+  
+1. Initialization Equations<br>
+Before the algorithm begins, several variables and arrays are initialised.<br>
+Verilog Representation:<br>
+for (i = 0; i < 9; i = i + 1) begin<br>
+dist[i] = (i == source) ? 8’h00 : 8’hFF;<br>
+end<br>
+### Parent Initialization
+Each node’s parent is initially set to an invalid value, indicating that no paths have been<br>
+established yet.<br>
+Verilog Representation:<br>
+for (i = 0; i < 9; i = i + 1) begin<br>
+parent[i] = 4’hF; // INVALID<br>
+end<br>
+### Visited Array Initialization
+All nodes are marked as unvisited at the start.<br>
+Verilog Representation:<br>
+visited = 9’b000000000;<br>
+### 2. Adjusting the Adjacency Matrix Based on subset cells<br>
+The adjacency matrix defines the connectivity between nodes in the grid. The subset cells input<br>
+determines which cells (nodes) are included or blocked. If a cell is blocked (i.e., subset cells[i]<br>
+= 0), all its connections are removed by setting the corresponding adjacency bits to 0.<br>
+Verilog Representation:<br>
+for (i = 0; i < 9; i = i + 1) begin<br>
+if (!subset cells[i]) begin<br>
+adj matrix[i] = 9’b000000000;<br>
+end<br>
+end<br>
+### 3. Main Loop:Dijkstra’s Algorithm Operations
+The core of Dijkstra’s algorithm involves iteratively selecting the unvisited node with the<br>
+smallest tentative distance, updating the distances of its neighbors, and marking it as visited.<br>
+This process continues until the destination is reached or no more nodes can be selected.<br>
+### A. Selecting the Current Node with Minimum Distance
+At each iteration, select the unvisited node with the smallest tentative distance.If no such node<br>
+exists (i.e., all remaining nodes are unreachable), the algorithm terminates.<br>
+Verilog Representation:<br>
+min dist = 8’hFF; // Initialize to infinity<br>
+next node = 4’hF; // INVALID<br>
+for (j = 0; j < 9; j = j + 1) begin<br>
+if (!visited[j] & (dist[j] ¡]< min dist)) begin<br>
+min dist = dist[j];<br>
+next node = j;<br>
+end<br>
+end<br>
+if (next node == 4’hF) begin<br>
+// No more nodes to process<br>
+break;<br>
+end else begin<br>
+current node = next node;<br>
+end<br>
+### B. Marking the Current Node as Visited
+Once a node uu is selected, mark it as visited to prevent reprocessing.<br>
+Verilog Representation:<br>
+visited[current node] = 1’b1;<br>
+### C. Updating Distances of Neighboring Nodes
+For each neighbour of the current node, update the tentative distance if a shorter path is<br>
+found.<br>
+Verilog Representation:<br>
+for (j = 0; j < 9; j = j + 1) begin<br>
+if (adj matrix[current node][j] & !visited[j]) begin<br>
+if (dist[current node] + 8’h01 < dist[j]) begin<br>
+dist[j] = dist[current node] + 8’h01;<br>
+parent[j] = current node;<br>
+end<br>
+end<br>
+end<br>
+### D. Iterative Loop Control
+Repeat the selection and updating steps until the destination is reached or no more nodes can<br>
+be processed.<br>
+Verilog Representation:<br>
+for (i = 0; i < 9; i = i + 1) begin<br>
+// Selection, marking, and updating steps as described above<br>
+// Break the loop if no next node is found<br>
+end<br>
+### 4. Path Reconstruction Equations
+After completing the main loop, if the destination node has been reached (i.e., dist[destination]<br>
+is not infinity), reconstruct the shortest path by tracing back from the destination to the source<br>
+using the parent array.<br>
+### A. Determining Shortest Distance
+shortest distance=dist[destination]<br>
+Verilog Representation:<br>
+shortest distance = dist[destination];<br>
+### B. Reconstructing the Path
+Initialize path out to zero and iteratively set the bits corresponding to each node in the path<br>
+from the destination back to the source.<br>
+Verilog Representation:<br>
+path out = 9’b000000000;<br>
+current node = destination;<br>
+for (j = 0; current node != source & j < 9 & current node != 4’hF; j = j + 1) begin<br>
+path out = path out — (1 !! current node);<br>
+current node = parent[current node];<br>
+end<br>
+path out = path out — (1 !! source);<br>
+### C. Handling No Path Found
+If the destination remains unreachable after the main loop, indicate that no valid path exists.<br>
+Verilog Representation:<br>
+if (dist[destination] != 8’hFF) begin<br>
+// Reconstruct path as shown above<br>
+end else begin<br>
+path out = 9’b000000000;<br>
+end<br>
 </details>
 
 <!-- Fourth Section -->
 ## Logisim Circuit Diagram
 <details>
   <summary>Detail</summary>
+   Adjacency Matrix module
+  
+  ![adj_matrix](https://github.com/user-attachments/assets/36835e81-3b3c-4232-b03c-d2e06f4b9c5b)
+ Queue Module
+![Queue](https://github.com/user-attachments/assets/f47ca5f2-8795-4db9-b7aa-74e19f484e2f)
+Distances module
+![distances](https://github.com/user-attachments/assets/dca2e34a-19c1-4855-bcb2-30ce20dee755)
+Visited nodes module
+![visitednodes](https://github.com/user-attachments/assets/007fb617-5df5-421c-be52-fbee512fdb4f)<br>
+Parent module
+![parent](https://github.com/user-attachments/assets/e23f7f39-bb01-4753-8caa-1d025148cf1c)
 
-  > Update a neat logisim circuit diagram
 </details>
+
 
 <!-- Fifth Section -->
 ## Verilog Code
@@ -201,5 +316,7 @@ circuits involved [GeeksforGeeks, ].
   
   > [https://www.cs.usfca.edu/galles/visualization/Dijkstra.html]<br/>
   >  [https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/]<br/>
+  >  put link <br/>
+  
 
 </details>
