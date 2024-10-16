@@ -318,6 +318,142 @@ end<br>
       end
     endmodule
 
+### Gate Level Implementation 
+
+    module main_control(
+      input reset,
+      input clk,
+      input [8:0] subset_cells,    // Subset cells or blocked nodes
+      input [3:0] source,          // Source node (0-8)
+      input [3:0] destination,     // Destination node (0-8)
+      output reg [2:0] shortest_distance, // Output: Shortest distance
+      output reg [8:0] path_out           // Output: Path taken
+    );
+
+    reg [7:0] dist[8:0];         // Distance array
+    reg [3:0] current_node;
+    reg [7:0] min_dist;
+    reg [8:0] visited;
+    reg [8:0] adj_matrix[8:0];
+    
+    wire [8:0] temp_path;
+    wire update_needed;
+    wire not_visited;
+    reg [7:0] next_dist;
+    reg update_dist;
+    
+    // Instantiate other modules
+    distance_update_gate dist_update(
+        .dist_current(dist[current_node]),
+        .dist_neighbor(dist[next_node]),
+        .visited_neighbor(visited[next_node]),
+        .update_needed(update_needed)
+    );
+    
+    visited_check visit_check(
+        .visited(visited[next_node]),
+        .not_visited(not_visited)
+    );
+    
+    path_reconstruction path_recon(
+        .temp_path(temp_path),
+        .current_node(current_node),
+        .path_out(path_out)
+    );
+
+    initial begin
+        adj_matrix[0] = 9'b000001010; 
+        adj_matrix[1] = 9'b000010101;
+        adj_matrix[2] = 9'b000100010;
+        adj_matrix[3] = 9'b001010001;
+        adj_matrix[4] = 9'b010101010;
+        adj_matrix[5] = 9'b100010100;
+        adj_matrix[6] = 9'b010001000;
+        adj_matrix[7] = 9'b101010000;
+        adj_matrix[8] = 9'b010100000;
+        visited = 9'b000000000;
+        shortest_distance = 8'hFF;
+        path_out = 9'b000000000;
+    end
+    
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            visited = 9'b000000000;
+            shortest_distance = 8'hFF;
+            path_out = 9'b000000000;
+        end else begin
+
+            dist[source] = 8'h00;
+            current_node = source;
+
+            while (current_node != destination) begin
+
+                for (int i = 0; i < 9; i = i + 1) begin
+                    if (adj_matrix[current_node][i] && !visited[i]) begin
+
+                        if (update_needed) begin
+                            dist[i] = dist[current_node] + 1;
+                        end
+                    end
+                end
+                min_dist = 8'hFF;
+                for (int j = 0; j < 9; j = j + 1) begin
+                    if (!visited[j] && dist[j] < min_dist) begin
+                        min_dist = dist[j];
+                        current_node = j;
+                    end
+                end
+                visited[current_node] = 1;
+            end
+            shortest_distance = dist[destination];
+            path_out = path_recon.path_out;
+        end
+      end
+    endmodule
+    module distance_update_gate(
+        input [7:0] dist_current,  
+        input [7:0] dist_neighbor, 
+        input visited_neighbor,   
+        output update_needed      
+      );
+      wire [7:0] dist_plus_one; 
+      wire comparison_result;  
+      assign dist_plus_one = dist_current + 8'b00000001;
+      assign comparison_result = (dist_plus_one < dist_neighbor);
+      assign update_needed = (~visited_neighbor) & comparison_result;
+    endmodule
+      module visited_check(
+        input visited,         
+        output not_visited     
+      );
+        assign not_visited = ~visited;
+      endmodule
+      module select_min(
+      input [7:0] dist1,  
+      input [7:0] dist2, 
+      input visited1,     
+      input visited2,   
+      output [7:0] min_dist,  
+      output select_node1 
+      );
+        wire valid1, valid2, comparison_result;
+        assign valid1 = ~visited1;
+        assign valid2 = ~visited2;
+        assign comparison_result = (dist1 < dist2);
+        assign select_node1 = valid1 & (valid2 ? comparison_result : 1'b1); 
+        assign min_dist = select_node1 ? dist1 : dist2;
+      endmodule
+      module path_reconstruction(
+        input [8:0] temp_path, 
+        input [3:0] current_node,
+        output [8:0] path_out    
+      );
+        wire [8:0] temp_shifted;
+        assign temp_shifted = temp_path | (9'b000000001 << current_node);
+        assign path_out = temp_shifted;
+      endmodule
+
+
 ### Output
 
 ![Screenshot 2024-10-16 164850](https://github.com/user-attachments/assets/f710cb19-7142-4b9f-b74f-ebd538f95cbc)
