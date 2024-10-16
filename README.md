@@ -72,7 +72,8 @@ circuits involved [GeeksforGeeks, ].
   
   ### State Diagram
  
-  ![State Diagram](https://github.com/user-attachments/assets/923fa0f5-be05-4719-8375-460277904abc)
+ 
+![State Diagram drawio](https://github.com/user-attachments/assets/3453f67c-088c-440d-b312-95063a2e288f)
 
 
 •	This project aims to find the shortest path between two points in a 3x3 grid, where some paths may be blocked or unreachable due to fire or obstacles. We represent the grid using an adjacency matrix that tracks the connections between nodes (cells). The algorithm must adjust dynamically for blocked cells and then compute the shortest path from a given source node to a destination node.</br>
