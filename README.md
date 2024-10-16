@@ -186,7 +186,8 @@ end<br>
   
   ### Main Module
 
-  ![main](https://github.com/user-attachments/assets/9d25aa4c-fdc7-49bc-a336-30ee402d2bb8)
+![main](https://github.com/user-attachments/assets/32388a2b-9427-451d-b19e-2cff2de64c20)
+
 
   
  ### Adjacency Matrix module
