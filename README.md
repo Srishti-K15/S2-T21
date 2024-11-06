@@ -99,9 +99,7 @@ circuits involved [GeeksforGeeks, ].
 
 
   
- ### Adjacency Matrix module
-  
-  ![adj_matrix](https://github.com/user-attachments/assets/36835e81-3b3c-4232-b03c-d2e06f4b9c5b)
+ 
  ### Queue Module
 ![Queue](https://github.com/user-attachments/assets/f47ca5f2-8795-4db9-b7aa-74e19f484e2f)
 ### Distances module
@@ -110,6 +108,10 @@ circuits involved [GeeksforGeeks, ].
 ![visitednodes](https://github.com/user-attachments/assets/007fb617-5df5-421c-be52-fbee512fdb4f)<br>
 ### Parent module
 ![parent](https://github.com/user-attachments/assets/e23f7f39-bb01-4753-8caa-1d025148cf1c)
+
+### Adjacency Matrix module
+  
+  ![adj_matrix](https://github.com/user-attachments/assets/36835e81-3b3c-4232-b03c-d2e06f4b9c5b)
 
 </details>
 
