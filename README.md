@@ -94,8 +94,9 @@ circuits involved [GeeksforGeeks, ].
   <summary>Detail</summary>
   
   ### Main Module
+![main](https://github.com/user-attachments/assets/88c83207-91c8-4acb-9450-58cf5adf6010)
 
-![main](https://github.com/user-attachments/assets/32388a2b-9427-451d-b19e-2cff2de64c20)
+
 
 
   
